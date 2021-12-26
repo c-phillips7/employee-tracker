@@ -15,7 +15,17 @@ CREATE TABLE department(
     name VARCHAR(30) NOT NULL
 );
 
+INSERT INTO department(name) VALUES ("Manager");
+
+INSERT INTO department(name) VALUES ("Sales");
+
+INSERT INTO department(name) VALUES ("Engineer");
+
+INSERT INTO department(name) VALUES ("Human Resouces");
+
 DESCRIBE employee_db.department;
+
+SELECT * FROM department;
    
 
 
