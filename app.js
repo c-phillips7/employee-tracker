@@ -80,10 +80,24 @@ add = () => {
         })
         .then(answer => {
             const choice = answer.add; 
-            console.log(answer);
-        })
-
-
+            switch (choice) {
+                case "DEPARTMENT":
+                    console.log("department chosen!!!");
+                    // function to add a department
+                    break;
+                case "ROLE":
+                    console.log("role chosen!!!");
+                    // funciton to add a role
+                    break;
+                case "EMPLOYEE":
+                    console.log("employee chosen");
+                    // function to add an employee
+                    break;
+                case "BACK":
+                    init();
+                    break;
+            };
+        });
 };
 
 
