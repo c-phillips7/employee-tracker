@@ -69,12 +69,13 @@ role_id INT NOT NULL,
 manager_id INT
 );
 
+TRUNCATE employee;
 INSERT INTO employee(first_name, last_name, role_id) VALUES ("Stephen", "Carter", 1);
-INSERT INTO employee(first_name, last_name, role_id) VALUES("Anna", "Lopez", 2);
+INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Anna", "Lopez", 2, 1);
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Deborah", "Reed", 2, 2);
-INSERT INTO employee(first_name, last_name, role_id) VALUES("Ryan", "Davis", 4);
+INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Ryan", "Davis", 4, 1);
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Thomas", "DIaz", 5, 4);
-INSERT INTO employee(first_name, last_name, role_id) VALUES("Bruce", "Harris", 6);
+INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Bruce", "Harris", 6, 1);
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Emily", "Wood", 7, 6);
 
 DESCRIBE employee_db.employee;
