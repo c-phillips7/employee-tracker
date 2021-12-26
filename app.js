@@ -21,6 +21,7 @@ var connection = mysql2.createConnection({
 });
 
 // run js loagic on connection
+// TODO: fix the figlet text from being covered by the inquirer options
 connection.connect(function (err) {
     if (err) throw err;
     figlet('Employee Tracker', function (err, data) {
@@ -56,7 +57,6 @@ function init() {
                     view();
                     break;
                 case "Update":
-                    // go to update logic
                     console.log("update selected");
                     update();
                     break;
@@ -101,9 +101,57 @@ add = () => {
 };
 
 
+view = () => {
+    inquirer
+        .prompt({
+            type: "list",
+            message: "Select what you would like to view: ",
+            name: "add",
+            choices: ["DEPARTMENT", "ROLE", "EMPLOYEE", "BACK"]
+        })
+        .then(answer => {
+            const choice = answer.add; 
+            switch (choice) {
+                case "DEPARTMENT":
+                    console.log("department chosen!!!");
+                    // function to view a department
+                    break;
+                case "ROLE":
+                    console.log("role chosen!!!");
+                    // funciton to view a role
+                    break;
+                case "EMPLOYEE":
+                    console.log("employee chosen");
+                    // function to view an employee
+                    break;
+                case "BACK":
+                    init();
+                    break;
+            };
+        });
+};
 
-
-
+view = () => {
+    inquirer
+        .prompt({
+            type: "list",
+            message: "Select what you would like to view: ",
+            name: "add",
+            choices: ["ROLE", "BACK"]
+        })
+        .then(answer => {
+            const choice = answer.add; 
+            switch (choice) {
+                case "ROLE":
+                    console.log("role chosen!!!");
+                    // funciton to update a role
+                    break;
+                case "BACK":
+                    init();
+                    break;
+            };
+        });
+};
 
 
 
