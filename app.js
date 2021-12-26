@@ -38,12 +38,22 @@ connection.connect(function (err) {
 // basic function to test server
 function init() {
     inquirer
-        .prompt(test)
-        .then(console.log("inquirer ran"))
+        .prompt({
+            type: "list",
+            message: "Select an option: ",
+            name: "startup",
+            choices: ["ADD", "VIEW", "UPDATE", "EXIT"]
+        })
+        .then(answer => {
+            const choice = answer.startup;
+            console.log(choice);
+        })
         .catch(err => {
             console.log("Error: ", err)
         })
 };
+
+
 
 // basic question to test inquirer
 const test = [{
@@ -67,3 +77,6 @@ const test = [{
 // TODO: add Add new employee
 
 // TODO: add Update an employee
+
+
+// TODO: BONUS add DELETE options
