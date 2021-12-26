@@ -131,7 +131,7 @@ view = () => {
         });
 };
 
-view = () => {
+update = () => {
     inquirer
         .prompt({
             type: "list",
