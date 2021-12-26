@@ -4,13 +4,6 @@ const inquirer = require("inquirer");
 const consoleTable = require('console.table');
 const figlet = require('figlet');
 
-// Check if .env loading correctly
-const result = dotenv.config()
-if (result.error) {
-  throw result.error
-}
-console.log(result.parsed)
-
 // Create connection with express and mysql2
 var connection = mysql2.createConnection({
     host: "localhost",
@@ -27,10 +20,6 @@ connection.connect(function (err) {
     init();
 });
 
-// Used to debug error connecting to server
-process.on('uncaughtException', function (err) {
-    console.log(err);
-}); 
 
 // basic function to test server
 function init() {
