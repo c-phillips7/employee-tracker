@@ -42,7 +42,17 @@ CREATE TABLE role(
     department_id INT NOT NULL
 );
 
+INSERT INTO role(title, salary, department_id) VALUES ("General Manager", 100000 , 1);
+INSERT INTO role(title, salary, department_id) VALUES ("Sales Lead", 60000 , 2);
+INSERT INTO role(title, salary, department_id) VALUES ("Salesperson", 45000 , 2);
+INSERT INTO role(title, salary, department_id) VALUES ("Head Engineer", 120000 , 3);
+INSERT INTO role(title, salary, department_id) VALUES ("Software Engineer", 100000 , 3);
+INSERT INTO role(title, salary, department_id) VALUES ("HR Lead", 55000 , 4);
+INSERT INTO role(title, salary, department_id) VALUES ("Recruiter", 40000 , 4);
+
 DESCRIBE employee_db.role;
+SELECT * FROM role;
+
 
 -- employee table
     -- id: INT PRIMARY KEY
