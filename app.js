@@ -46,12 +46,50 @@ function init() {
         })
         .then(answer => {
             const choice = answer.startup;
-            console.log(choice);
+            switch (choice) {
+                case "ADD":
+                    console.log("add selected");
+                    add();
+                    break;
+                case "View":
+                    console.log("view selected");
+                    view();
+                    break;
+                case "Update":
+                    // go to update logic
+                    console.log("update selected");
+                    update();
+                    break;
+                case "EXIT":
+                    connection.end();
+                    break;
+            }
         })
         .catch(err => {
             console.log("Error: ", err)
         })
 };
+
+add = () => {
+    inquirer
+        .prompt({
+            type: "list",
+            message: "Select what you would like to add: ",
+            name: "add",
+            choices: ["DEPARTMENT", "ROLE", "EMPLOYEE", "BACK"]
+        })
+        .then(answer => {
+            const choice = answer.add; 
+            console.log(answer);
+        })
+
+
+};
+
+
+
+
+
 
 
 
