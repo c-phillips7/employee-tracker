@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const mysql2 = require("mysql2");
 const inquirer = require("inquirer");
 const consoleTable = require('console.table');
+const figlet = require('figlet');
 
 var connection = mysql2.createConnection({
     host: "localhost",
