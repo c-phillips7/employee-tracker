@@ -15,16 +15,15 @@ CREATE TABLE department(
     name VARCHAR(30) NOT NULL
 );
 
+-- usefull to empty table for testing
+TRUNCATE department;
 INSERT INTO department(name) VALUES ("Manager");
-
 INSERT INTO department(name) VALUES ("Sales");
-
 INSERT INTO department(name) VALUES ("Engineer");
-
 INSERT INTO department(name) VALUES ("Human Resouces");
 
-DESCRIBE employee_db.department;
 
+DESCRIBE employee_db.department;
 SELECT * FROM department;
    
 
@@ -70,4 +69,13 @@ role_id INT NOT NULL,
 manager_id INT
 );
 
+INSERT INTO employee(first_name, last_name, role_id) VALUES ("Stephen", "Carter", 1);
+INSERT INTO employee(first_name, last_name, role_id) VALUES("Anna", "Lopez", 2);
+INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Deborah", "Reed", 2, 2);
+INSERT INTO employee(first_name, last_name, role_id) VALUES("Ryan", "Davis", 4);
+INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Thomas", "DIaz", 5, 4);
+INSERT INTO employee(first_name, last_name, role_id) VALUES("Bruce", "Harris", 6);
+INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Emily", "Wood", 7, 6);
+
 DESCRIBE employee_db.employee;
+SELECT * FROM employee;
