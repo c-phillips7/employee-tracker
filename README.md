@@ -13,7 +13,7 @@
 
   ## Installation
 
-  Install the npm dependencies in the package.json, and make sure there is a functional MySQL server for the program to interact with.
+  Install the npm dependencies in the package.json, and make sure there is a functional MySQL server for the program to interact with. Additionally, a .env file with DB_PASS= the password to the database must be set for app to work.
 
   ## Usage
 
