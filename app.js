@@ -299,7 +299,23 @@ addEmployee = async () => {
 // UPDATE FUNCTIONS
 ///////////////////
 
-
+updateRole = async () => {
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "Select the [EMPLOYEE] you'd like to update: ",
+                choices: await employeeChoices(),
+                name: "employee"
+            },
+            {
+                type: "list",
+                message: "Select the employee's updated [ROLE]: ",
+                choices: await roleChoices(),
+                name: "role"
+            }])
+            .then
+}
 
 ////////////////////////
 // ASYNC QUERY FUNCTIONS:
@@ -376,6 +392,21 @@ managerIdQuery = manager => {
       });
     });
 };
+
+// Same as managerChoices but without the none in the array as an option
+employeeChoices = () => {
+    return new Promise((resolve, reject) => {
+        const employeeArr = [];
+      connection.query("SELECT * FROM employee", (err, res) => {
+        if (err) throw err;
+        res.forEach(employee => {
+          let fullName = employee.first_name + " " + employee.last_name;
+          employeeArr.push(fullName);
+          return err ? reject(err) : resolve(employeeArr);
+        });
+      });
+    });
+  };
 
 
 // TODO: add Update an employee
