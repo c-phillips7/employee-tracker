@@ -7,7 +7,7 @@ const figlet = require('figlet');
 // Set env so it can be accessed
 const result = dotenv.config()
 if (result.error) {
-  throw result.error
+    throw result.error
 }
 
 // Create connection with express and mysql2
@@ -26,8 +26,8 @@ connection.connect(function (err) {
     if (err) throw err;
     figlet('Employee Tracker', function (err, data) {
         if (err) {
-          console.log('Something went wrong...');
-          return;
+            console.log('Something went wrong...');
+            return;
         };
         console.log(data);
     });
@@ -52,11 +52,11 @@ function init() {
                     console.log("add selected");
                     add();
                     break;
-                case "View":
+                case "VIEW":
                     console.log("view selected");
                     view();
                     break;
-                case "Update":
+                case "UPDATE":
                     console.log("update selected");
                     update();
                     break;
@@ -75,11 +75,11 @@ add = () => {
         .prompt({
             type: "list",
             message: "Select what you would like to add: ",
-            name: "add",
-            choices: ["DEPARTMENT", "ROLE", "EMPLOYEE", "BACK"]
+            choices: ["DEPARTMENT", "ROLE", "EMPLOYEE", "BACK"],
+            name: "add"
         })
         .then(answer => {
-            const choice = answer.add; 
+            const choice = answer.add;
             switch (choice) {
                 case "DEPARTMENT":
                     console.log("department chosen!!!");
@@ -105,16 +105,16 @@ view = () => {
     inquirer
         .prompt({
             type: "list",
-            message: "Select what you would like to view: ",
-            name: "add",
-            choices: ["DEPARTMENT", "ROLE", "EMPLOYEE", "BACK"]
+            message: "Select what you would like to add: ",
+            choices: ["DEPARTMENT", "ROLE", "EMPLOYEE", "BACK"],
+            name: "view"
         })
         .then(answer => {
-            const choice = answer.add; 
+            const choice = answer.view;
             switch (choice) {
                 case "DEPARTMENT":
-                    console.log("department chosen!!!");
-                    // function to view a department
+                    // console.log("department chosen!!!");
+                    viewDepartment();
                     break;
                 case "ROLE":
                     console.log("role chosen!!!");
@@ -140,7 +140,7 @@ update = () => {
             choices: ["ROLE", "BACK"]
         })
         .then(answer => {
-            const choice = answer.add; 
+            const choice = answer.add;
             switch (choice) {
                 case "ROLE":
                     console.log("role chosen!!!");
@@ -153,6 +153,22 @@ update = () => {
         });
 };
 
+
+// VIEW FUNCTIONS:
+
+viewDepartment = () => {
+    connection.query("SELECT * FROM department", (err, res) => {
+        if (err) throw err;
+        console.log(res);
+        console.table(res);
+        console.log("---------------------------------------");
+        init();
+    });
+};
+
+
+// ADD FUNCTIONS:
+
 addDepartment = () => {
     inquirer
         .prompt({
@@ -163,15 +179,15 @@ addDepartment = () => {
         .then(answer => {
             console.log("inserting department");
             const newDepartment = answer.name;
-            const query = connection.query("INSERT INTO department SET ?",
-                {
-                    name: newDepartment
-                }, (err, res) => {
-                    if (err) throw err;
-                    console.log(res);
-                    console.log("department added!");
-                    init();
-                });
+            const query = connection.query("INSERT INTO department SET ?", {
+                name: newDepartment
+            }, (err, res) => {
+                if (err) throw err;
+                console.log(res.affectedRows + " department added!");
+                // seperator to see between added department and new inquirer prompt
+                console.log("-----------------------------------------");
+                init();
+            });
             console.log(query.sql);
         });
 };
