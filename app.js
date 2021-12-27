@@ -201,7 +201,7 @@ addDepartment = () => {
         });
 };
 
-
+// Probably needs to be async so function to get department can run first
 addRole = () => {
     inquirer
         .prompt([{
@@ -217,7 +217,7 @@ addRole = () => {
             {
                 type: "list",
                 message: "Select the [DEPARTMENT] of the role: ",
-                // choices will need to be a function to get the departments available from SQL
+                // TODO: choices will need to be a function to get the departments available from SQL
                 // Teporarily just a list
                 choices: ["1", "2", "3", "4"],
                 name: "department"
@@ -235,6 +235,58 @@ addRole = () => {
             }, (err, res) => {
                 if (err) throw err;
                 console.log(res.affectedRows + " role added!");
+                console.log("-----------------------------------------");
+                init();
+            });
+            console.log(query.sql);
+        });
+};
+
+addEmployee = () => {
+    inquirer
+        .prompt([{
+                type: "Input",
+                message: "Input the employee's [FIRST] name: ",
+                name: "firstName"
+            },
+            {
+                type: "Input",
+                message: "Input the employee's [LAST] name: ",
+                name: "lastName"
+            },
+            {
+                type: "list",
+                message: "Select the [ROLE] of the employee: ",
+                // TODO: choices will need to be a function to get the role available from SQL
+                // Teporarily just a list
+                choices: ["1", "2", "3", "4", "5", "6", "7"],
+                name: "role"
+            },
+            {
+                type: "list",
+                message: "Select the [MANAGER] of the employee (or NONE if there isn't one): ",
+                // TODO: choices will need to be a function to get the managers available from SQL
+                // Teporarily just a list
+                choices: ["1", "2", "3", "4", "5", "6", "7", "none"],
+                name: "manager"
+            }
+        ])
+        .then(answer => {
+            console.log("inserting employee");
+            const firstName = answer.firstName;
+            const lastName = answer.lastName;
+            const roleId = answer.role;
+            // "null" as text option does not work, so if statement used
+            // again needs to be replaced by a function to get managerId from SQL
+            const managerId = answer.manager === "none" ? null : answer.manager;
+            const query = connection.query("INSERT INTO employee SET ?", {
+                first_name: firstName,
+                last_name: lastName,
+                role_id: roleId,
+                manager_id: managerId
+            }, (err, res) => {
+                if (err) throw err;
+                console.log(res.affectedRows + " employee added!");
                 console.log("-----------------------------------------");
                 init();
             });
