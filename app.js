@@ -82,16 +82,13 @@ add = () => {
             const choice = answer.add;
             switch (choice) {
                 case "DEPARTMENT":
-                    console.log("department chosen!!!");
                     addDepartment();
                     break;
                 case "ROLE":
-                    console.log("role chosen!!!");
-                    // funciton to add a role
+                    addRole();
                     break;
                 case "EMPLOYEE":
-                    console.log("employee chosen");
-                    // function to add an employee
+                    addEmployee()
                     break;
                 case "BACK":
                     init();
@@ -113,16 +110,13 @@ view = () => {
             const choice = answer.view;
             switch (choice) {
                 case "DEPARTMENT":
-                    // console.log("department chosen!!!");
                     viewDepartment();
                     break;
                 case "ROLE":
-                    console.log("role chosen!!!");
-                    // funciton to view a role
+                    viewRole();
                     break;
                 case "EMPLOYEE":
-                    console.log("employee chosen");
-                    // function to view an employee
+                    viewEmployee();
                     break;
                 case "BACK":
                     init();
@@ -136,15 +130,14 @@ update = () => {
         .prompt({
             type: "list",
             message: "Select what you would like to view: ",
-            name: "add",
+            name: "update",
             choices: ["ROLE", "BACK"]
         })
         .then(answer => {
-            const choice = answer.add;
+            const choice = answer.update;
             switch (choice) {
                 case "ROLE":
-                    console.log("role chosen!!!");
-                    // funciton to update a role
+                    updateRole()
                     break;
                 case "BACK":
                     init();
@@ -159,7 +152,6 @@ update = () => {
 viewDepartment = () => {
     connection.query("SELECT * FROM department", (err, res) => {
         if (err) throw err;
-        console.log(res);
         console.table(res);
         console.log("---------------------------------------");
         init();
