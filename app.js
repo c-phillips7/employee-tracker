@@ -193,7 +193,7 @@ addDepartment = () => {
             name: "name"
         })
         .then(answer => {
-            console.log("inserting department");
+            console.log("Inserting department...");
             const newDepartment = answer.name;
             const query = connection.query("INSERT INTO department SET ?", {
                 name: newDepartment
@@ -229,7 +229,7 @@ addRole = async () => {
             }
         ])
         .then(async answer => {
-            console.log("inserting role");
+            console.log("Inserting role...");
             const newRole = answer.title;
             const newSalary = answer.salary;
             // Function was named departmentId, but for some reason this did not work. Only changing the function name fixed this issue...
@@ -274,7 +274,7 @@ addEmployee = async () => {
             }
         ])
         .then(async answer => {
-            console.log("inserting employee");
+            console.log("Inserting employee...");
             const firstName = answer.firstName;
             const lastName = answer.lastName;
             const roleId = await roleIdQuery(answer.role);
@@ -314,7 +314,23 @@ updateRole = async () => {
                 choices: await roleChoices(),
                 name: "role"
             }])
-            .then
+            .then(async answer => {
+                console.log("Updating employee role");
+                const employeeId = await managerIdQuery(answer.employee);
+                const newRoleID = await roleIdQuery(answer.role);
+                const query = connection.query("UPDATE employee SET ? WHERE id=?",
+                  [{
+                    role_id: newRoleID
+                  },
+                    employeeId], (err, res) => {
+                      if (err) throw err;
+                      console.log(res.affectedRows + " employee updated!")
+                console.log("-----------------------------------------");
+
+                      init();
+                    });
+                console.log(query.sql);
+              });
 }
 
 ////////////////////////
@@ -371,6 +387,7 @@ roleIdQuery = role => {
   };
 
 managerChoices = () => {
+    // NOTE: could possibly be narrowed down to only display valid options of managers, but could not figure out how
     return new Promise((resolve, reject) => {
         const managerArr = ["None"];
       connection.query("SELECT * FROM employee", (err, res) => {
