@@ -218,7 +218,6 @@ addRole = async () => {
                 type: "list",
                 message: "Select the [DEPARTMENT] of the role: ",
                 choices: await departmentChoices(),
-                // choices: ["1", "2", "3", "4"],
                 name: "department"
             }
         ])
@@ -242,7 +241,7 @@ addRole = async () => {
         });
 };
 
-addEmployee = () => {
+addEmployee = async () => {
     inquirer
         .prompt([{
                 type: "Input",
@@ -257,28 +256,27 @@ addEmployee = () => {
             {
                 type: "list",
                 message: "Select the [ROLE] of the employee: ",
-                // TODO: choices will need to be a function to get the role available from SQL
-                // Teporarily just a list
-                choices: ["1", "2", "3", "4", "5", "6", "7"],
+                choices: await roleChoices(),
+                // choices: ["1", "2", "3", "4", "5", "6", "7"],
                 name: "role"
             },
             {
                 type: "list",
                 message: "Select the [MANAGER] of the employee (or NONE if there isn't one): ",
                 // TODO: choices will need to be a function to get the managers available from SQL
-                // Teporarily just a list
+                // choces: await managerChoices(),
                 choices: ["1", "2", "3", "4", "5", "6", "7", "none"],
                 name: "manager"
             }
         ])
-        .then(answer => {
+        .then(async answer => {
             console.log("inserting employee");
             const firstName = answer.firstName;
             const lastName = answer.lastName;
-            const roleId = answer.role;
+            const roleId = await roleIdQuery(answer.role);
             // "null" as text option does not work, so if statement used
             // again needs to be replaced by a function to get managerId from SQL
-            const managerId = answer.manager === "none" ? null : answer.manager;
+            const managerId = answer.manager === "none" ? null : await managerIdQuery(answer.manager);
             const query = connection.query("INSERT INTO employee SET ?", {
                 first_name: firstName,
                 last_name: lastName,
@@ -294,6 +292,7 @@ addEmployee = () => {
         });
 };
 
+// function to create an array of departments from db for inquirer question
 departmentChoices = () => {
     return new Promise((resolve, reject) => {
         const departmentArr = [];
@@ -307,6 +306,7 @@ departmentChoices = () => {
       });
 };
 
+// Get Id from department selected in inquirer question
 departmentIdQuery = department => {
     return new Promise((resolve, reject) => {
         connection.query("SELECT * FROM department WHERE name=?", [department], async (err, res) => {
@@ -318,6 +318,19 @@ departmentIdQuery = department => {
 };
 
 
+// function to create an array of roles from db for inquirer question
+roleChoices = () => {
+    return new Promise((resolve, reject) => {
+        const roleArr = [];
+        connection.query("SELECT * FROM role", (err, res) => {
+          if (err) throw err;
+          res.forEach(role => {
+            roleArr.push(role.title);
+            return err ? reject(err) : resolve(roleArr);
+          });
+        });
+      });
+};
 
 
 // TODO: add Add new role
