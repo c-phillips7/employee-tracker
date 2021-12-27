@@ -158,6 +158,23 @@ viewDepartment = () => {
     });
 };
 
+viewRole = () => {
+    connection.query("SELECT * FROM role", (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        console.log("---------------------------------------");
+        init();
+    });
+};
+
+viewEmployee = () => {
+    connection.query("SELECT * FROM employee", (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        console.log("---------------------------------------");
+        init();
+    });
+};
 
 // ADD FUNCTIONS:
 
