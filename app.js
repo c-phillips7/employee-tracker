@@ -182,7 +182,7 @@ addDepartment = () => {
     inquirer
         .prompt({
             type: "Input",
-            message: "Input the [NAME] of the department",
+            message: "Input the [NAME] of the department: ",
             name: "name"
         })
         .then(answer => {
@@ -194,6 +194,47 @@ addDepartment = () => {
                 if (err) throw err;
                 console.log(res.affectedRows + " department added!");
                 // seperator to see between added department and new inquirer prompt
+                console.log("-----------------------------------------");
+                init();
+            });
+            console.log(query.sql);
+        });
+};
+
+
+addRole = () => {
+    inquirer
+        .prompt([{
+                type: "Input",
+                message: "Input the [TITLE] of the role: ",
+                name: "title"
+            },
+            {
+                type: "number",
+                message: "Input the [SALARY] of the role: ",
+                name: "salary"
+            },
+            {
+                type: "list",
+                message: "Select the [DEPARTMENT] of the role: ",
+                // choices will need to be a function to get the departments available from SQL
+                // Teporarily just a list
+                choices: ["1", "2", "3", "4"],
+                name: "department"
+            }
+        ])
+        .then(answer => {
+            console.log("inserting role");
+            const newRole = answer.title;
+            const newSalary = answer.salary;
+            const departmentId = answer.department
+            const query = connection.query("INSERT INTO role SET ?", {
+                title: newRole,
+                salary: newSalary,
+                department_id: departmentId
+            }, (err, res) => {
+                if (err) throw err;
+                console.log(res.affectedRows + " role added!");
                 console.log("-----------------------------------------");
                 init();
             });
