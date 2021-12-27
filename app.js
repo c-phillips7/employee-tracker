@@ -264,8 +264,8 @@ addEmployee = async () => {
                 type: "list",
                 message: "Select the [MANAGER] of the employee (or NONE if there isn't one): ",
                 // TODO: choices will need to be a function to get the managers available from SQL
-                // choces: await managerChoices(),
-                choices: ["1", "2", "3", "4", "5", "6", "7", "none"],
+                choices: await managerChoices(),
+                // choices: ["1", "2", "3", "4", "5", "6", "7", "none"],
                 name: "manager"
             }
         ])
@@ -331,6 +331,21 @@ roleChoices = () => {
         });
       });
 };
+
+
+managerChoices = () => {
+    return new Promise((resolve, reject) => {
+        const managerArr = ["None"];
+      connection.query("SELECT * FROM employee", (err, res) => {
+        if (err) throw err;
+        res.forEach(employee => {
+          let fullName = employee.first_name + " " + employee.last_name;
+          managerArr.push(fullName);
+          return err ? reject(err) : resolve(managerArr);
+        });
+      });
+    });
+  };
 
 
 // TODO: add Add new role
