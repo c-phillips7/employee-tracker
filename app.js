@@ -16,7 +16,6 @@ var connection = mysql2.createConnection({
     port: 3306,
     user: "root",
     password: process.env.DB_PASS,
-    // password: "Waterisgood1!",
     database: "employee_db"
 });
 
@@ -424,9 +423,6 @@ employeeChoices = () => {
       });
     });
   };
-
-
-// TODO: add Update an employee
 
 
 // TODO: BONUS add DELETE options
