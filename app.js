@@ -278,7 +278,7 @@ addEmployee = async () => {
             const lastName = answer.lastName;
             const roleId = await roleIdQuery(answer.role);
             // "null" as text option does not work, so if statement used
-            const managerId = answer.manager === "none" ? null : await managerIdQuery(answer.manager);
+            const managerId = answer.manager === "None" ? null : await managerIdQuery(answer.manager);
             const query = connection.query("INSERT INTO employee SET ?", {
                 first_name: firstName,
                 last_name: lastName,
