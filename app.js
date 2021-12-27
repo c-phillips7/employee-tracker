@@ -36,7 +36,7 @@ connection.connect(function (err) {
 });
 
 
-// basic function to test server
+// Starting screen of selections
 function init() {
     inquirer
         .prompt({
@@ -70,6 +70,8 @@ function init() {
         })
 };
 
+
+// Inquierer options when add is selected
 add = () => {
     inquirer
         .prompt({
@@ -97,7 +99,7 @@ add = () => {
         });
 };
 
-
+// Inquierer options when view is selected
 view = () => {
     inquirer
         .prompt({
@@ -125,11 +127,13 @@ view = () => {
         });
 };
 
+
+// Inquierer options when update is selected
 update = () => {
     inquirer
         .prompt({
             type: "list",
-            message: "Select what you would like to view: ",
+            message: "Select what you would like to update: ",
             name: "update",
             choices: ["ROLE", "BACK"]
         })
@@ -146,8 +150,9 @@ update = () => {
         });
 };
 
-
+/////////////////
 // VIEW FUNCTIONS:
+/////////////////
 
 viewDepartment = () => {
     connection.query("SELECT * FROM department", (err, res) => {
@@ -176,7 +181,9 @@ viewEmployee = () => {
     });
 };
 
+////////////////
 // ADD FUNCTIONS:
+////////////////
 
 addDepartment = () => {
     inquirer
@@ -257,15 +264,12 @@ addEmployee = async () => {
                 type: "list",
                 message: "Select the [ROLE] of the employee: ",
                 choices: await roleChoices(),
-                // choices: ["1", "2", "3", "4", "5", "6", "7"],
                 name: "role"
             },
             {
                 type: "list",
                 message: "Select the [MANAGER] of the employee (or NONE if there isn't one): ",
-                // TODO: choices will need to be a function to get the managers available from SQL
                 choices: await managerChoices(),
-                // choices: ["1", "2", "3", "4", "5", "6", "7", "none"],
                 name: "manager"
             }
         ])
@@ -275,7 +279,6 @@ addEmployee = async () => {
             const lastName = answer.lastName;
             const roleId = await roleIdQuery(answer.role);
             // "null" as text option does not work, so if statement used
-            // again needs to be replaced by a function to get managerId from SQL
             const managerId = answer.manager === "none" ? null : await managerIdQuery(answer.manager);
             const query = connection.query("INSERT INTO employee SET ?", {
                 first_name: firstName,
@@ -291,6 +294,16 @@ addEmployee = async () => {
             console.log(query.sql);
         });
 };
+
+///////////////////
+// UPDATE FUNCTIONS
+///////////////////
+
+
+
+////////////////////////
+// ASYNC QUERY FUNCTIONS:
+////////////////////////
 
 // function to create an array of departments from db for inquirer question
 departmentChoices = () => {
@@ -332,6 +345,14 @@ roleChoices = () => {
       });
 };
 
+roleIdQuery = role => {
+    return new Promise((resolve, reject) => {
+      connection.query("SELECT * FROM role WHERE title=?", [role], async (err, res) => {
+        if (err) throw err;
+        return err ? reject(err) : resolve(res[0].id);
+      });
+    });
+  };
 
 managerChoices = () => {
     return new Promise((resolve, reject) => {
@@ -347,10 +368,14 @@ managerChoices = () => {
     });
   };
 
-
-// TODO: add Add new role
-
-// TODO: add Add new employee
+managerIdQuery = manager => {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM employee WHERE CONCAT(first_name, " ", last_name)=?', [manager], async (err, res) => {
+        if (err) throw err;
+        return err ? reject(err) : resolve(res[0].id);
+      });
+    });
+};
 
 
 // TODO: add Update an employee
