@@ -202,7 +202,7 @@ addDepartment = () => {
 };
 
 // Probably needs to be async so function to get department can run first
-addRole = () => {
+addRole = async () => {
     inquirer
         .prompt([{
                 type: "Input",
@@ -218,8 +218,9 @@ addRole = () => {
                 type: "list",
                 message: "Select the [DEPARTMENT] of the role: ",
                 // TODO: choices will need to be a function to get the departments available from SQL
+                choices: await departmentChoices(),
                 // Teporarily just a list
-                choices: ["1", "2", "3", "4"],
+                // choices: ["1", "2", "3", "4"],
                 name: "department"
             }
         ])
@@ -227,7 +228,8 @@ addRole = () => {
             console.log("inserting role");
             const newRole = answer.title;
             const newSalary = answer.salary;
-            const departmentId = answer.department
+            // departmentId needs to be an id based on the department, not the department selected, another function needed
+            const departmentId = answer.department;
             const query = connection.query("INSERT INTO role SET ?", {
                 title: newRole,
                 salary: newSalary,
@@ -294,16 +296,21 @@ addEmployee = () => {
         });
 };
 
+departmentChoices = () => {
+    return new Promise((resolve, reject) => {
+        const departmentArr = [];
+        connection.query("SELECT * FROM department", (err, res) => {
+          if (err) throw err;
+          res.forEach(department => {
+            departmentArr.push(department.name);
+            return err ? reject(err) : resolve(departmentArr);
+          });
+        });
+      });
+    };
 
-//TODO: add View all departments
-
-// TODO: add View all Roles
-
-// TODO: add View all Employees
 
 
-
-// TODO: add Add new department
 
 // TODO: add Add new role
 
