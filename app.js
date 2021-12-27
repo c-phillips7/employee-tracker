@@ -83,7 +83,7 @@ add = () => {
             switch (choice) {
                 case "DEPARTMENT":
                     console.log("department chosen!!!");
-                    // function to add a department
+                    addDepartment();
                     break;
                 case "ROLE":
                     console.log("role chosen!!!");
@@ -153,14 +153,29 @@ update = () => {
         });
 };
 
+addDepartment = () => {
+    inquirer
+        .prompt({
+            type: "Input",
+            message: "Input the [NAME] of the department",
+            name: "name"
+        })
+        .then(answer => {
+            console.log("inserting department");
+            const newDepartment = answer.name;
+            const query = connection.query("INSERT INTO department SET ?",
+                {
+                    name: newDepartment
+                }, (err, res) => {
+                    if (err) throw err;
+                    console.log(res);
+                    console.log("department added!");
+                    init();
+                });
+            console.log(query.sql);
+        });
+};
 
-
-// basic question to test inquirer
-const test = [{
-        type: "input",
-        message: "Is this working: ",
-        name: "test",
-    }];
 
 //TODO: add View all departments
 
@@ -175,6 +190,7 @@ const test = [{
 // TODO: add Add new role
 
 // TODO: add Add new employee
+
 
 // TODO: add Update an employee
 
