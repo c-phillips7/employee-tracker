@@ -40,7 +40,7 @@ CREATE TABLE role(
     salary DECIMAL(10,2) NOT NULL,
     department_id INT NOT NULL
 );
-
+TRUNCATE role;
 INSERT INTO role(title, salary, department_id) VALUES ("General Manager", 100000 , 1);
 INSERT INTO role(title, salary, department_id) VALUES ("Sales Lead", 60000 , 2);
 INSERT INTO role(title, salary, department_id) VALUES ("Salesperson", 45000 , 2);
@@ -79,4 +79,7 @@ INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Bruce",
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Emily", "Wood", 7, 6);
 
 DESCRIBE employee_db.employee;
+
+SELECT * FROM department;
+SELECT * FROM role;
 SELECT * FROM employee;
