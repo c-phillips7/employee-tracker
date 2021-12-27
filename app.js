@@ -217,19 +217,17 @@ addRole = async () => {
             {
                 type: "list",
                 message: "Select the [DEPARTMENT] of the role: ",
-                // TODO: choices will need to be a function to get the departments available from SQL
                 choices: await departmentChoices(),
-                // Teporarily just a list
                 // choices: ["1", "2", "3", "4"],
                 name: "department"
             }
         ])
-        .then(answer => {
+        .then(async answer => {
             console.log("inserting role");
             const newRole = answer.title;
             const newSalary = answer.salary;
-            // departmentId needs to be an id based on the department, not the department selected, another function needed
-            const departmentId = answer.department;
+            // Function was named departmentId, but for some reason this did not work. Only changing the function name fixed this issue...
+            const departmentId = await departmentIdQuery(answer.department);
             const query = connection.query("INSERT INTO role SET ?", {
                 title: newRole,
                 salary: newSalary,
@@ -307,7 +305,17 @@ departmentChoices = () => {
           });
         });
       });
-    };
+};
+
+departmentIdQuery = department => {
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT * FROM department WHERE name=?", [department], async (err, res) => {
+            if (err) throw err;
+            console.log(res[0].id);
+            return err ? reject(err) : resolve(res[0].id);
+        });
+    });
+};
 
 
 
