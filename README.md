@@ -1,6 +1,6 @@
 # Employee Tracker
 
-  Update employee database using this back end express.js based app. Utilizes the dotenv, mysql2, and console.table npm to interact with the database via the console.
+  Update employee database using this back end express.js based app. Utilizes the dotenv, mysql, and console.table npm to interact with the database via the console.
 
   ## Table of Contents
 
