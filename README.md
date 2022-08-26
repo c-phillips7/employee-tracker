@@ -8,7 +8,6 @@
   - [Usage](#usage)
   - [License](#license)
   - [Contributing](#contributing)
-  - [Tests](#tests)
   - [Questions](#questions)
 
   ## Installation
@@ -26,10 +25,6 @@
   ## Contributing
 
   Open source project, use it as you like!
-
-  ## Tests
-
-  Usual tests to ensure app works as intended.
 
   ## Questions
 
